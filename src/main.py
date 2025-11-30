@@ -2,6 +2,8 @@ from fastapi import FastAPI
 from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
 
+from src.providers.stub import generate_stub_image
+
 class GenerateImageRequest(BaseModel):
     prompt: str
     style: str = None
@@ -33,4 +35,5 @@ async def health_check():
 
 @app.post("/api/generate-image", response_model=GenerateImageResponse)
 async def generate_image(request: GenerateImageRequest):
-    return {"image_base64": "fake_base64_string"}
+    image_base64 = generate_stub_image()
+    return {"image_base64": image_base64}
